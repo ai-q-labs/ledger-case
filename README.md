@@ -4,6 +4,8 @@
 
 Built for the PayPal AI Hackathon (2026). Node 20+ · PayPal sandbox · MIT.
 
+**Play it now:** https://ledger-case.onrender.com/ (no sign-in; it runs on our sandbox and our AI key, see [The hosted demo](#the-hosted-demo)). It is a free instance, so the first visit after 15 minutes of quiet can take about a minute to wake up.
+
 ---
 
 ## Why it exists
@@ -50,6 +52,7 @@ The same code runs as a public demo with `LEDGER_HOSTED=1` (for example on Rende
 - A fourth process, **the desk**, creates a fresh copy of the one payment the ending refunds for every new game, so every visitor can play to the end. The clerk asks the desk which payment belongs to a game; it never takes a payment id from the game.
 - Each browser gets its own game (an HttpOnly cookie). A game allows 40 questions to the partner and 80 to suspects, one at a time; one address can start 10 games an hour, and the desk 60 an hour in total.
 - The AI key we use for the demo sits in its own Anthropic workspace with a monthly spend limit, so the demo cannot spend beyond it.
+- Our copy runs at https://ledger-case.onrender.com/ (Render free web service, `LEDGER_HOSTED=1`, the case from `LEDGER_JSON`). On 2026-10-23 we played it there end to end without signing in (one run): the partner pulled web#1032, web#1034 and web#1039 through the reader, the accusation was graded solved, the clerk's approval page showed $200.00, and the refund read back from PayPal as `COMPLETED`.
 
 ## Run it (about 5 minutes)
 
