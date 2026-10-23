@@ -1,0 +1,7 @@
+node_modules/
+.env
+case-data/
+*.log
+.DS_Store
+# Keep the lockfile so installs are reproducible and the audited versions are pinned.
+!package-lock.json

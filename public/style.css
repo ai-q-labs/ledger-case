@@ -1,0 +1,111 @@
+:root {
+  --paper: #f5f1e8;
+  --card: #fffdf8;
+  --ink: #1d232b;
+  --muted: #5d6672;
+  --rule: #ddd5c4;
+  --accent: #1f5f3f;
+  --accent-ink: #ffffff;
+  --warn: #9b2c2c;
+  --mark: #003087;
+  --tool: #e9f0ea;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #15181c;
+    --card: #1d2126;
+    --ink: #e8e4da;
+    --muted: #9aa3ad;
+    --rule: #333a42;
+    --accent: #4fa37a;
+    --accent-ink: #0d1a12;
+    --warn: #e08080;
+    --mark: #7aa7ff;
+    --tool: #1f2e25;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+h1, h2, h3 { margin: 0; }
+h2 { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.2rem 0 0.5rem; }
+h2:first-child { margin-top: 0; }
+h3 { font-size: 0.9rem; margin: 1rem 0 0.35rem; }
+small { font-weight: 400; color: var(--muted); text-transform: none; letter-spacing: 0; }
+button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); padding: 0.45rem 0.9rem; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+button.ghost { background: transparent; }
+button.wide { width: 100%; margin-top: 1rem; }
+button:disabled { opacity: 0.5; cursor: default; }
+
+.top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--rule); background: var(--card); }
+.brand { display: flex; gap: 0.7rem; align-items: center; }
+.mark { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 8px; background: var(--mark); color: #fff; font-weight: 700; }
+.brand h1 { font-size: 1.1rem; }
+.brand p { margin: 0; color: var(--muted); font-size: 0.85rem; }
+.top-actions { display: flex; gap: 0.6rem; align-items: center; }
+.pill { font-size: 0.8rem; color: var(--muted); border: 1px solid var(--rule); border-radius: 99px; padding: 0.15rem 0.6rem; }
+
+.grid { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.5fr) minmax(260px, 1fr); gap: 1rem; padding: 1rem; height: calc(100vh - 66px); }
+.col { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1rem; overflow: auto; min-height: 0; }
+.premise p { margin: 0 0 0.5rem; }
+.plain { margin: 0; padding-left: 1.1rem; }
+.plain li { margin-bottom: 0.2rem; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+th, td { text-align: left; padding: 0.3rem 0.4rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.ref { font-family: ui-monospace, Consolas, monospace; font-size: 0.82rem; }
+.msg { border-left: 3px solid var(--rule); padding: 0.2rem 0 0.2rem 0.7rem; margin-bottom: 0.7rem; }
+.msg b { display: block; font-size: 0.85rem; }
+
+.talk { display: flex; flex-direction: column; }
+.tabs { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.tabs button { padding: 0.3rem 0.7rem; font-size: 0.85rem; }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.who { color: var(--muted); font-size: 0.85rem; margin: 0.6rem 0; }
+.chat { flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 0.6rem; padding-right: 0.3rem; }
+.bubble { max-width: 90%; padding: 0.55rem 0.8rem; border-radius: 10px; white-space: pre-wrap; }
+.bubble.me { align-self: flex-end; background: var(--ink); color: var(--paper); }
+.bubble.them { align-self: flex-start; background: var(--paper); border: 1px solid var(--rule); }
+.bubble .calls { margin-top: 0.4rem; font-size: 0.78rem; color: var(--muted); }
+.bubble.err { border-color: var(--warn); color: var(--warn); }
+.show { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; font-size: 0.85rem; margin-top: 0.6rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.chip { font-size: 0.78rem; padding: 0.15rem 0.5rem; border-radius: 99px; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.composer { display: flex; gap: 0.5rem; margin-top: 0.7rem; }
+.composer input { flex: 1; font: inherit; padding: 0.55rem 0.7rem; border-radius: 8px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
+
+.note { color: var(--muted); font-size: 0.82rem; margin: 0 0 0.5rem; }
+.tools { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.tools li { background: var(--tool); border-radius: 6px; padding: 0.1rem 0.45rem; font-family: ui-monospace, Consolas, monospace; font-size: 0.78rem; }
+.log { margin: 0; padding-left: 1.3rem; font-size: 0.8rem; max-height: 30vh; overflow: auto; }
+.log li { margin-bottom: 0.25rem; }
+.log .bad { color: var(--warn); }
+.evidence { list-style: none; padding: 0; margin: 0; font-size: 0.82rem; }
+.evidence li { border-bottom: 1px solid var(--rule); padding: 0.35rem 0; }
+
+dialog { border: 1px solid var(--rule); border-radius: var(--radius); background: var(--card); color: var(--ink); max-width: 36rem; width: calc(100% - 32px); }
+dialog::backdrop { background: rgb(0 0 0 / 0.4); }
+fieldset { border: 1px solid var(--rule); border-radius: 8px; margin: 0.8rem 0; }
+fieldset label { display: block; margin: 0.2rem 0; font-size: 0.9rem; }
+.row { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.verdict p { margin: 0.4rem 0; }
+.verdict .good { color: var(--accent); font-weight: 600; }
+.verdict .bad { color: var(--warn); font-weight: 600; }
+
+.settle { margin-top: 1rem; border: 2px solid var(--accent); border-radius: var(--radius); padding: 0.9rem; }
+.settle h2 { margin-top: 0; color: var(--accent); }
+.settle .good { color: var(--accent); font-weight: 600; }
+.settle .bad { color: var(--warn); font-weight: 600; }
+.settle p { font-size: 0.88rem; }
+.settle-status { margin-top: 0.6rem; font-size: 0.88rem; }
+
+@media (max-width: 960px) {
+  .grid { grid-template-columns: 1fr; height: auto; padding: 16px; }
+  .col { overflow: visible; }
+  .chat { min-height: 40vh; }
+  .top { padding: 0.8rem 16px; }
+}

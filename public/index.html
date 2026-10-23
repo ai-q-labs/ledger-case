@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger Case</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mark">LC</span><div><h1>Ledger Case</h1><p id="shop">An audit in your PayPal sandbox</p></div></div>
+  <div class="top-actions"><span id="ai" class="pill"></span><button id="reset" class="ghost">New game</button></div>
+</header>
+
+<main class="grid">
+  <section class="col file" aria-label="Case file">
+    <h2>Case file</h2>
+    <div id="premise" class="premise"></div>
+    <h3>Staff codes</h3>
+    <ul id="staff" class="plain"></ul>
+    <h3>House rules</h3>
+    <ul id="rules" class="plain"></ul>
+    <h3>Order sheet <small>the shop's own books</small></h3>
+    <div class="table-wrap"><table id="sheet"><thead><tr><th>Ref</th><th>Customer</th><th>Item</th><th>Booked</th></tr></thead><tbody></tbody></table></div>
+    <h3>Messages</h3>
+    <div id="messages"></div>
+  </section>
+
+  <section class="col talk" aria-label="Conversations">
+    <nav id="tabs" class="tabs" role="tablist"></nav>
+    <div id="who" class="who"></div>
+    <div id="chat" class="chat" aria-live="polite"></div>
+    <div id="show" class="show" hidden>
+      <span>Show a record:</span>
+      <div id="show-chips" class="chips"></div>
+    </div>
+    <form id="composer" class="composer">
+      <input id="text" autocomplete="off" placeholder="Ask your partner to pull a record, e.g. &quot;Look at web#1032&quot;">
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <section class="col side" aria-label="PayPal activity">
+    <h2>Partner's tools</h2>
+    <p class="note">Read-only tools from PayPal's Agent Toolkit, served by a separate reader process. The partner has no tool that moves money.</p>
+    <ul id="tools" class="tools"></ul>
+    <h2>PayPal calls <small id="call-count"></small></h2>
+    <ol id="log" class="log"></ol>
+    <h2>Evidence</h2>
+    <ul id="evidence" class="evidence"></ul>
+    <button id="open-accuse" class="primary wide">Make an accusation</button>
+    <section id="settle" class="settle" hidden>
+      <h2>Close the books</h2>
+      <p id="settle-text">Mara Holt overpaid invoice HPS-0042 by $200 and asked for it by wire. PayPal's advice is to return an overpayment to the original payment, never by wire. Your partner cannot do this. The clerk can, once you approve it on the clerk's own page.</p>
+      <button id="propose" class="primary">Ask the clerk to refund $200 to Mara's original payment</button>
+      <div id="settle-status" class="settle-status"></div>
+    </section>
+  </section>
+</main>
+
+<dialog id="accuse">
+  <form method="dialog" id="accuse-form">
+    <h2>Who took the $412?</h2>
+    <fieldset id="culprits"><legend>Culprit</legend></fieldset>
+    <fieldset><legend>Records that prove it</legend><div id="cite"></div><p class="note">Only records your partner has pulled can be cited.</p></fieldset>
+    <div id="verdict" class="verdict"></div>
+    <div class="row"><button value="cancel" class="ghost">Close</button><button id="submit-accuse" value="default" class="primary">Accuse</button></div>
+  </form>
+</dialog>
+
+
+<script src="app.js" type="module"></script>
+</body>
+</html>
