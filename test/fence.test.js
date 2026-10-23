@@ -6,7 +6,10 @@ import assert from 'node:assert/strict';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { buildServer, READER_TOOLS } from '../src/reader.js';
-import { gameEnv, assertNoPayPalCredentials } from '../src/env.js';
+import { gameEnv, assertNoPayPalCredentials, ledgerFromEnv } from '../src/env.js';
+import { mkdtempSync, readFileSync, existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { createClerkApp } from '../src/clerk.js';
 
 const MOVES_MONEY = ['create_refund', 'pay_order', 'create_order', 'send_invoice', 'record_payment_for_invoice', 'record_refund_for_invoice', 'create_invoice', 'cancel_sent_invoice', 'accept_dispute_claim', 'create_subscription', 'update_invoicing', 'delete_invoice'];
@@ -105,4 +108,16 @@ test('a restarted clerk will not refund the same payment twice', async () => {
   assert.equal(status.status, 'failed');
   assert.match(status.error, /Already refunded by the clerk/);
   close();
+});
+
+test('a hosted restart can reuse a seeded case from LEDGER_JSON, and rejects anything else', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'ledger-case-test-'));
+  const path = join(dir, 'case-data', 'ledger.json');
+  const ledger = { case_id: 'abcd1234', orders: { 'web#1031': { order_id: 'O', capture_id: 'C' } }, refunds: {}, invoices: {} };
+  assert.equal(ledgerFromEnv(path, {}), null);
+  assert.equal(existsSync(path), false);
+  assert.throws(() => ledgerFromEnv(path, { LEDGER_JSON: '{"PAYPAL_CLIENT_SECRET":"x"}' }), /not a seeded ledger/);
+  assert.equal(ledgerFromEnv(path, { LEDGER_JSON: JSON.stringify(ledger) }), 'abcd1234');
+  assert.deepEqual(JSON.parse(readFileSync(path, 'utf8')), ledger);
+  assert.equal(ledgerFromEnv(path, { LEDGER_JSON: JSON.stringify({ ...ledger, case_id: 'other' }) }), null, 'an existing case is never overwritten');
 });

@@ -46,7 +46,7 @@ This is process separation, enforced by the code and checked by the tests below.
 
 The same code runs as a public demo with `LEDGER_HOSTED=1` (for example on Render's free web service: build `npm ci`, start `npm start`, and set `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `ANTHROPIC_API_KEY` and `LEDGER_HOSTED=1` as environment variables). Then:
 
-- The case is seeded on first start, and only the game's port is public; it also serves the clerk's pages under `/clerk/`, passing through nothing but the approval token.
+- The case is seeded on first start (or taken from `LEDGER_JSON`, the `case-data/ledger.json` of an earlier seed, so that a host without a persistent disk does not seed a new case on every restart; it holds sandbox ids only), and only the game's port is public; it also serves the clerk's pages under `/clerk/`, passing through nothing but the approval token.
 - A fourth process, **the desk**, creates a fresh copy of the one payment the ending refunds for every new game, so every visitor can play to the end. The clerk asks the desk which payment belongs to a game; it never takes a payment id from the game.
 - Each browser gets its own game (an HttpOnly cookie). A game allows 40 questions to the partner and 80 to suspects, one at a time; one address can start 10 games an hour, and the desk 60 an hour in total.
 - The AI key we use for the demo sits in its own Anthropic workspace with a monthly spend limit, so the demo cannot spend beyond it.
@@ -81,7 +81,7 @@ Kenji Ito had his flatmate buy the $103 pen set four times and refunded each one
 ## Tests
 
 ```sh
-npm test    # 16 tests, no keys, no network
+npm test    # 17 tests, no keys, no network
 ```
 
 They check the fence rather than describe it: the reader lists exactly the read-only tools and none of the toolkit tools that move money; the game's environment has no PayPal variable and the game refuses one; the clerk refuses other payments, larger amounts, repeats, a wrong approval token, and a second refund of the same payment after a restart; a proposal alone moves no money. They also check the case: the books are $412 above PayPal, the partner's instructions contain the books but none of the suspects' secrets or the solution, an accusation can only cite records the partner has actually pulled, and the keyless partner totals refunds by staff code from PayPal fields. And the hosted guards: each browser gets its own game and its own copy of the refundable payment, a game stops at its question limit, new games are rate-limited per address, the clerk refunds the payment the desk made for that game (ignoring any id in the request), and the game forwards only the approval token to the clerk.

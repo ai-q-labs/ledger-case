@@ -17,7 +17,7 @@ import { spawn } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { credentialsFromEnv } from './paypal.js';
-import { gameEnv } from './env.js';
+import { gameEnv, ledgerFromEnv } from './env.js';
 
 const here = (p) => fileURLToPath(new URL(p, import.meta.url));
 const hosted = process.env.LEDGER_HOSTED === '1';
@@ -31,6 +31,9 @@ function runOnce(script, args = []) {
     child.on('exit', (code) => (code === 0 ? resolve() : reject(new Error(`${script} exited with code ${code}`))));
   });
 }
+
+const fromEnv = ledgerFromEnv(ledgerPath, process.env);
+if (fromEnv) console.log(`[start] using the case from LEDGER_JSON (${fromEnv})`);
 
 if (!existsSync(ledgerPath)) {
   if (!hosted) {
