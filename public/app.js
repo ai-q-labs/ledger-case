@@ -23,6 +23,7 @@ let current = 'partner';
 let transcripts = {};
 const pending = {};
 const selected = new Set();
+const SETTLE_TEXT = $('settle-text').textContent;
 
 function renderCase() {
   $('shop').textContent = `${game.shop} · an audit in your PayPal sandbox`;
@@ -37,7 +38,7 @@ function renderCase() {
   );
   $('messages').replaceChildren(...game.messages.map((m) => el('div', { class: 'msg' }, el('b', {}, `${m.from} · ${m.subject}`), m.body)));
   $('tools').replaceChildren(...game.partner_tools.map((t) => el('li', {}, t)));
-  if (game.refs.invoice) $('settle-text').textContent = $('settle-text').textContent.replace('HPS-0042', game.refs.invoice.number);
+  $('settle-text').textContent = game.refs.invoice ? SETTLE_TEXT.replace('HPS-0042', game.refs.invoice.number) : SETTLE_TEXT;
 
   const people = [{ id: 'partner', name: 'Partner' }, ...game.suspects];
   $('tabs').replaceChildren(
@@ -95,7 +96,14 @@ async function refreshState() {
   );
   $('cite').replaceChildren(...keys.map((k) => el('label', {}, el('input', { type: 'checkbox', name: 'cite', value: k }), ` ${k}`)));
   $('settle').hidden = !s.solved;
-  if (s.proposal) renderProposal(s.proposal);
+  if (s.proposal) {
+    renderProposal(s.proposal);
+  } else {
+    // A new game has no proposal yet: clear what the last game left behind.
+    clearInterval(polling);
+    $('settle-status').replaceChildren();
+    $('propose').disabled = false;
+  }
   return s;
 }
 
@@ -170,7 +178,14 @@ $('propose').addEventListener('click', async () => {
 });
 
 $('reset').addEventListener('click', async () => {
-  await api('/api/reset', {});
+  try {
+    await api('/api/reset', {});
+    // In the hosted demo each game has its own copy of Mara's payment and invoice.
+    game = await api('/api/case');
+  } catch (err) {
+    $('who').textContent = err.message;
+    return;
+  }
   switchTo('partner');
 });
 
