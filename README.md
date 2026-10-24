@@ -6,6 +6,8 @@ Built for the PayPal AI Hackathon (2026). Node 20+ · PayPal sandbox · MIT.
 
 **Play it now:** https://ledger-case.onrender.com/ (no sign-in; it runs on our sandbox and our AI key, see [The hosted demo](#the-hosted-demo)). It is a free instance, so the first visit after 15 minutes of quiet can take about a minute to wake up.
 
+**Demo video (2:28):** https://www.youtube.com/watch?v=3OvNbbDhYdU. It was recorded in one take with the narrated tour: add `?tour=1` to the game's address and press "Start tour". The tour plays the real game (real PayPal reads, real AI replies) and reads it aloud with the browser's speech voice; a person still has to click the clerk's button and approve on the clerk's page.
+
 ---
 
 ## Why it exists
@@ -91,7 +93,7 @@ They check the fence rather than describe it: the reader lists exactly the read-
 
 ## What we measured in the sandbox
 
-On 2026-10-23, with a US sandbox business account (one run each): the seed created all 9 orders, 5 refunds, the invoice and the 7-item payout batch; the reader read them back through the toolkit (`custom_id`, card name and shipping address are returned as set); the clerk's $200 refund completed and read back as `COMPLETED`, both locally and in hosted mode through the game's `/clerk/` pass-through on a desk-made copy of the payment. Transaction search lagged by about six hours (n=1), so the game never relies on it; it reads every record by id.
+On 2026-10-23, with a US sandbox business account (one run each): the seed created all 9 orders, 5 refunds, the invoice and the 7-item payout batch; the reader read them back through the toolkit (`custom_id`, card name and shipping address are returned as set); the clerk's $200 refund completed and read back as `COMPLETED`, both locally and in hosted mode through the game's `/clerk/` pass-through on a desk-made copy of the payment. Transaction search lagged by about six hours (n=1), so the game never relies on it; it reads every record by id. On 2026-10-24 the narrated tour ran end to end in hosted mode on our machine (two runs), and both refunds read back as `COMPLETED`.
 
 Dependencies: `npm audit` reports 0 vulnerabilities. The PayPal Agent Toolkit's own dependency tree had 10 advisories (LangChain, the AI SDK, mathjs and others); `package.json` overrides them to fixed versions, and the tests and the live reader check pass with the overrides. Of those packages, the toolkit's MCP entry point loads only mathjs.
 
